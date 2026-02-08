@@ -2,7 +2,7 @@
 
 **Enterprise-grade, cross-platform system tray utility for real-time network speed monitoring.**
 
-[![Version](https://img.shields.io/badge/version-1.0-blue.svg)](https://github.com/yourusername/netflow/releases)
+[![Version](https://img.shields.io/badge/version-1.0-blue.svg)](https://github.com/Aneesh-Madupalli/Net_Flow/releases)
 [![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)](https://golang.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -34,14 +34,14 @@
 
 ## Download — ready-to-run binaries
 
-Pre-built binaries: **click to download** (direct download), then run. Replace `yourusername/netflow` with your repo; use `main` or `master` to match your default branch.
+Pre-built binaries: **click to download** from the [main repo](https://github.com/Aneesh-Madupalli/Net_Flow).
 
 | Platform | Download | How to run |
 |----------|----------|------------|
-| **Windows** | [⬇ netflow.exe](https://github.com/yourusername/netflow/raw/main/release/netflow.exe) | Double-click or run from Explorer. Icon in system tray (no console window). |
-| **macOS (Intel)** | [⬇ netflow-macos-amd64](https://github.com/yourusername/netflow/raw/main/release/netflow-macos-amd64) | In Terminal: `chmod +x netflow-macos-amd64` then `./netflow-macos-amd64`. Icon in menu bar. |
-| **macOS (Apple Silicon)** | [⬇ netflow-macos-arm64](https://github.com/yourusername/netflow/raw/main/release/netflow-macos-arm64) | In Terminal: `chmod +x netflow-macos-arm64` then `./netflow-macos-arm64`. Icon in menu bar. |
-| **Linux** | [⬇ netflow-linux-amd64](https://github.com/yourusername/netflow/raw/main/release/netflow-linux-amd64) | In terminal: `chmod +x netflow-linux-amd64` then `./netflow-linux-amd64`. Icon in system tray. |
+| **Windows** | [⬇ netflow.exe](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow.exe) | Double-click or run from Explorer. Icon in system tray (no console window). |
+| **macOS (Intel)** | [⬇ netflow-macos-amd64](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow-macos-amd64) | In Terminal: `chmod +x netflow-macos-amd64` then `./netflow-macos-amd64`. Icon in menu bar. |
+| **macOS (Apple Silicon)** | [⬇ netflow-macos-arm64](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow-macos-arm64) | In Terminal: `chmod +x netflow-macos-arm64` then `./netflow-macos-arm64`. Icon in menu bar. |
+| **Linux** | [⬇ netflow-linux-amd64](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow-linux-amd64) | In terminal: `chmod +x netflow-linux-amd64` then `./netflow-linux-amd64`. Icon in system tray. |
 
 - **Windows:** No installer; run the `.exe`. Optional: add to Startup for run at logon.
 - **macOS / Linux:** Grant network access if prompted. Optional: add to Login Items (macOS) or session autostart (Linux).
@@ -60,8 +60,8 @@ If you're on **macOS** or **Linux**, you can build the release binaries so the [
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/netflow.git
-cd netflow
+git clone https://github.com/Aneesh-Madupalli/Net_Flow.git
+cd Net_Flow
 
 # 2. Download dependencies
 go mod download
@@ -83,8 +83,8 @@ git push
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/netflow.git
-cd netflow
+git clone https://github.com/Aneesh-Madupalli/Net_Flow.git
+cd Net_Flow
 
 # 2. Download dependencies
 go mod download
@@ -121,11 +121,9 @@ Then commit `release/` so all [Download](#download--ready-to-run-binaries) links
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/netflow.git
-cd netflow
+git clone https://github.com/Aneesh-Madupalli/Net_Flow.git
+cd Net_Flow
 ```
-
-*(Replace the URL with your fork or the actual repo URL.)*
 
 ### 2. Download dependencies
 
