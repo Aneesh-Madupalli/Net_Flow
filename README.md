@@ -11,6 +11,7 @@
 
 ## Table of Contents
 
+- [Quick start: clone, build & run](#quick-start-clone-build--run)
 - [Overview](#overview)
 - [Features](#features)
 - [Installation](#installation)
@@ -26,6 +27,62 @@
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
+
+---
+
+## Quick start: clone, build & run
+
+**Prerequisite:** [Go 1.21 or later](https://go.dev/doc/install) installed and on your `PATH`.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/netflow.git
+cd netflow
+```
+
+*(Replace the URL with your fork or the actual repo URL.)*
+
+### 2. Download dependencies
+
+```bash
+go mod download
+```
+
+### 3. Build for your platform
+
+**Windows (no console window; tray only):**
+
+```bash
+go build -ldflags="-s -w -H windowsgui" -o netflow.exe
+```
+
+**macOS (Intel):**
+
+```bash
+go build -ldflags="-s -w" -o netflow
+```
+
+**macOS (Apple Silicon):**
+
+```bash
+GOARCH=arm64 go build -ldflags="-s -w" -o netflow
+```
+
+**Linux:**
+
+```bash
+go build -ldflags="-s -w" -o netflow
+```
+
+### 4. Run the application
+
+- **Windows:** Double-click `netflow.exe` or run `.\netflow.exe` in PowerShell. The icon appears in the system tray (no console window).
+- **macOS / Linux:** Run `./netflow`. The icon appears in the menu bar (macOS) or system tray (Linux).
+
+Hover over the icon to see download and upload speeds. Right-click → **Quit** to exit.
+
+**Alternative:** Use the included scripts to build: `build-windows.bat` (Windows), `./build-macos.sh` (macOS), `./build-linux.sh` (Linux). See [Building from Source](#building-from-source) for all options.
 
 ---
 
@@ -59,15 +116,17 @@ NetFlow is a lightweight, cross-platform application that displays **real-time d
 
 ## Installation
 
+You can either **build from source** (see [Quick start](#quick-start-clone-build--run)) or use a pre-built binary below.
+
 ### Windows
 
-1. Download `netflow-windows-amd64.exe` from [Releases](https://github.com/yourusername/netflow/releases).
+1. Download `netflow-windows-amd64.exe` from [Releases](https://github.com/yourusername/netflow/releases), or [build it yourself](#quick-start-clone-build--run).
 2. Run the executable (no installer, no console window). The icon appears in the system tray (notification area).
 3. Optional: Add to startup (e.g. shell:startup or Task Scheduler) for launch at logon.
 
 ### macOS
 
-1. Download `netflow-macos-arm64` (Apple Silicon) or `netflow-macos-amd64` (Intel).
+1. Download `netflow-macos-arm64` (Apple Silicon) or `netflow-macos-amd64` (Intel) from [Releases](https://github.com/yourusername/netflow/releases), or [build from source](#quick-start-clone-build--run).
 2. In Terminal:
    ```bash
    chmod +x netflow-macos-arm64   # or netflow-macos-amd64
@@ -78,7 +137,7 @@ NetFlow is a lightweight, cross-platform application that displays **real-time d
 
 ### Linux
 
-1. Download `netflow-linux-amd64` from [Releases](https://github.com/yourusername/netflow/releases).
+1. Download `netflow-linux-amd64` from [Releases](https://github.com/yourusername/netflow/releases), or [build from source](#quick-start-clone-build--run).
 2. Make it executable and run:
    ```bash
    chmod +x netflow-linux-amd64
@@ -184,15 +243,20 @@ netflow/
 - **Go 1.21 or later** — [Install Go](https://go.dev/doc/install)
 - **Git** — To clone the repository
 
+For the shortest path to a running app, follow [Quick start: clone, build & run](#quick-start-clone-build--run) above.
+
 ### Quick build (current platform)
 
+From the project root after cloning and `go mod download`:
+
 ```bash
-git clone https://github.com/yourusername/netflow.git
-cd netflow
-go mod download
+# Linux or macOS
 go build -ldflags="-s -w" -o netflow
-# Run: ./netflow  (Linux/macOS)  or  netflow.exe  (Windows)
-# On Windows, for no console window use: go build -ldflags="-s -w -H windowsgui" -o netflow.exe
+./netflow
+
+# Windows (GUI app, no console)
+go build -ldflags="-s -w -H windowsgui" -o netflow.exe
+.\netflow.exe
 ```
 
 ### Make targets
