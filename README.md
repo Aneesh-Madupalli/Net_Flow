@@ -34,14 +34,14 @@
 
 ## Download — ready-to-run binaries
 
-Pre-built binaries: **click to download**, then run. (Links point to the `release/` folder in this repo. To refresh them: run `make release` on macOS/Linux, or run `build-windows.bat` and the other build scripts, then copy the built files into `release/` and commit.)
+Pre-built binaries: **click to download** (direct download), then run. Replace `yourusername/netflow` with your repo; use `main` or `master` to match your default branch.
 
 | Platform | Download | How to run |
 |----------|----------|------------|
-| **Windows** | [⬇ netflow.exe](release/netflow.exe) | Double-click or run from Explorer. Icon in system tray (no console window). |
-| **macOS (Intel)** | [⬇ netflow-macos-amd64](release/netflow-macos-amd64) | In Terminal: `chmod +x netflow-macos-amd64` then `./netflow-macos-amd64`. Icon in menu bar. |
-| **macOS (Apple Silicon)** | [⬇ netflow-macos-arm64](release/netflow-macos-arm64) | In Terminal: `chmod +x netflow-macos-arm64` then `./netflow-macos-arm64`. Icon in menu bar. |
-| **Linux** | [⬇ netflow-linux-amd64](release/netflow-linux-amd64) | In terminal: `chmod +x netflow-linux-amd64` then `./netflow-linux-amd64`. Icon in system tray. |
+| **Windows** | [⬇ netflow.exe](https://github.com/yourusername/netflow/raw/main/release/netflow.exe) | Double-click or run from Explorer. Icon in system tray (no console window). |
+| **macOS (Intel)** | [⬇ netflow-macos-amd64](https://github.com/yourusername/netflow/raw/main/release/netflow-macos-amd64) | In Terminal: `chmod +x netflow-macos-amd64` then `./netflow-macos-amd64`. Icon in menu bar. |
+| **macOS (Apple Silicon)** | [⬇ netflow-macos-arm64](https://github.com/yourusername/netflow/raw/main/release/netflow-macos-arm64) | In Terminal: `chmod +x netflow-macos-arm64` then `./netflow-macos-arm64`. Icon in menu bar. |
+| **Linux** | [⬇ netflow-linux-amd64](https://github.com/yourusername/netflow/raw/main/release/netflow-linux-amd64) | In terminal: `chmod +x netflow-linux-amd64` then `./netflow-linux-amd64`. Icon in system tray. |
 
 - **Windows:** No installer; run the `.exe`. Optional: add to Startup for run at logon.
 - **macOS / Linux:** Grant network access if prompted. Optional: add to Login Items (macOS) or session autostart (Linux).

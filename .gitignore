@@ -1,4 +1,4 @@
-# Binaries (root only; release/ is committed for download links)
+# Binaries at repo root (ignored)
 /*.exe
 /*.exe~
 /netflow
@@ -6,6 +6,14 @@
 *.dll
 *.so
 *.dylib
+
+# Release folder: keep tracked so README download links work
+# (Do not add release/ here. Explicitly allow these files in case of global *.exe etc.)
+!release/
+!release/netflow.exe
+!release/netflow-macos-amd64
+!release/netflow-macos-arm64
+!release/netflow-linux-amd64
 
 # Test binary, built with `go test -c`
 *.test
