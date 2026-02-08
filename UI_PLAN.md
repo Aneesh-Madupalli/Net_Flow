@@ -209,10 +209,12 @@ Speed < 1 KB/s for both download and upload
 ### Menu Structure
 
 ```
-Network Speed Indicator
+NetFlow        (disabled label; app name)
 ──────────────────────
 Quit
 ```
+
+As implemented: first item is "NetFlow" (disabled), then separator, then "Quit".
 
 ### Menu Rules
 
@@ -267,7 +269,7 @@ Quit
 
 ✅ **Screen Reader Support**
 - Tooltip text is readable by screen readers
-- Icon has accessible name: "Network Speed Indicator"
+- Icon has accessible name: "NetFlow" (app name in tooltip)
 
 ✅ **Visual Accessibility**
 - No color-only meaning (arrows + text)
@@ -452,9 +454,9 @@ If users request more features, extend without breaking v1:
 
 ### First Launch
 
-1. User double-clicks executable
+1. User double-clicks executable (on Windows: no console window; GUI app)
 2. Icon appears in system tray (2 seconds max)
-3. Tooltip shows speeds immediately
+3. Tooltip shows app name + speeds on hover
 4. No setup, no configuration, no questions
 
 ### Daily Use
@@ -584,7 +586,7 @@ If users request more features, extend without breaking v1:
 
 **Document Status**: Final  
 **Version**: 1.0  
-**Last Updated**: 2024  
+**Last Updated**: 2025  
 **Designer**: UI Architecture Team
 
 ---

@@ -2,8 +2,8 @@
 ## NetFlow
 
 **Version:** 1.0  
-**Date:** 2024  
-**Status:** Final - Approved for Implementation  
+**Date:** 2025  
+**Status:** Final - Implemented  
 **Category:** System Utility / Network Monitoring  
 **Target Platforms:** Windows, macOS, Linux  
 **Primary Language:** Go (Golang)
@@ -140,13 +140,15 @@ NetFlow provides:
 
 ### 5.4 Context Menu
 
-Minimal menu:
+Minimal menu (as implemented):
 
 ```
-NetFlow
+NetFlow     (disabled label)
 ────────
 Quit
 ```
+
+No Settings or display-mode options; tray shows app icon only, speeds on hover.
 
 ---
 
@@ -228,8 +230,8 @@ UI layer only displays formatted output.
 ### 9.1 Windows
 
 * Windows 10+
-* x64, ARM64
-* Tray-only application
+* x64 (amd64)
+* Tray-only application; built with GUI subsystem (no console window)
 
 ### 9.2 macOS
 
@@ -251,9 +253,9 @@ UI layer only displays formatted output.
 
 ### 10.1 Build Targets
 
-* Windows: `.exe`
-* macOS: binary or `.app`
-* Linux: single binary
+* Windows: `netflow-windows-amd64.exe` (GUI subsystem, no console)
+* macOS: `netflow-macos-amd64`, `netflow-macos-arm64`
+* Linux: `netflow-linux-amd64`
 
 ### 10.2 Distribution
 
@@ -339,6 +341,6 @@ UI layer only displays formatted output.
 ---
 
 **Document Status**: Final  
-**Last Updated**: 2024  
+**Last Updated**: 2025  
 **Next Review**: Post v1.0 release
 

@@ -62,7 +62,7 @@ NetFlow is a lightweight, cross-platform application that displays **real-time d
 ### Windows
 
 1. Download `netflow-windows-amd64.exe` from [Releases](https://github.com/yourusername/netflow/releases).
-2. Run the executable (no installer). The icon appears in the system tray (notification area).
+2. Run the executable (no installer, no console window). The icon appears in the system tray (notification area).
 3. Optional: Add to startup (e.g. shell:startup or Task Scheduler) for launch at logon.
 
 ### macOS
@@ -125,7 +125,7 @@ NetFlow may store an optional config file under the platform config directory fo
 │               │      │                 │      │                  │
 │ • gopsutil    │      │ • B/s → KB/MB/GB │      │ • systray        │
 │ • Byte deltas │      │ • Tooltip string │      │ • Icon / title   │
-│ • Rollover    │      │ • Tooltip string │      │ • Menu, Quit    │
+│ • Rollover    │      │                 │      │ • Menu, Quit    │
 └───────────────┘      └─────────────────┘      └────────┬─────────┘
                                                          │
                         ┌────────────────────────────────┼────────────────┐
@@ -191,7 +191,8 @@ git clone https://github.com/yourusername/netflow.git
 cd netflow
 go mod download
 go build -ldflags="-s -w" -o netflow
-# Run: ./netflow  (or netflow.exe on Windows)
+# Run: ./netflow  (Linux/macOS)  or  netflow.exe  (Windows)
+# On Windows, for no console window use: go build -ldflags="-s -w -H windowsgui" -o netflow.exe
 ```
 
 ### Make targets
@@ -199,7 +200,7 @@ go build -ldflags="-s -w" -o netflow
 | Target | Description |
 |--------|-------------|
 | `make build` | Build for current OS/arch → `netflow` (or `netflow.exe`) |
-| `make build-windows` | Build Windows amd64 → `netflow-windows-amd64.exe` |
+| `make build-windows` | Build Windows amd64 (GUI, no console) → `netflow-windows-amd64.exe` |
 | `make build-macos` | Build macOS amd64 + arm64 → `netflow-macos-amd64`, `netflow-macos-arm64` |
 | `make build-linux` | Build Linux amd64 → `netflow-linux-amd64` |
 | `make build-all` | Build for Windows, macOS, and Linux |
@@ -211,15 +212,15 @@ go build -ldflags="-s -w" -o netflow
 
 ### Scripts (no Make)
 
-- **Windows:** `build-windows.bat` → `netflow-windows-amd64.exe`
+- **Windows:** `build-windows.bat` → `netflow-windows-amd64.exe` (GUI subsystem; no console window when run)
 - **macOS:** `./build-macos.sh` → `netflow-macos-amd64`, `netflow-macos-arm64`
 - **Linux:** `./build-linux.sh` → `netflow-linux-amd64`
 
 ### Cross-compile (manual)
 
 ```bash
-# Windows
-GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o netflow-windows-amd64.exe
+# Windows (GUI app: no console window)
+GOOS=windows GOARCH=amd64 go build -ldflags="-s -w -H windowsgui" -o netflow-windows-amd64.exe
 
 # macOS (Intel / Apple Silicon)
 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o netflow-macos-amd64
@@ -229,7 +230,7 @@ GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o netflow-macos-arm64
 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o netflow-linux-amd64
 ```
 
-The `-ldflags="-s -w"` reduces binary size by stripping debug info.
+The `-ldflags="-s -w"` strips debug info; on Windows `-H windowsgui` builds a GUI app with no console window.
 
 ---
 
@@ -239,10 +240,10 @@ The `-ldflags="-s -w"` reduces binary size by stripping debug info.
 |-------|------------|
 | **Language** | Go 1.21+ |
 | **Module** | `netflow` |
-| **Network stats** | [gopsutil/v3](https://github.com/shirou/gopsutil) — cross-platform interface counters |
+| **Network stats** | [gopsutil/v3](https://github.com/shirou/gopsutil) — cross-platform interface counters (native OS APIs) |
 | **System tray** | [getlantern/systray](https://github.com/getlantern/systray) — icon, tooltip, menu (Windows/macOS/Linux) |
-| **Image/icon** | `golang.org/x/image` (font, draw), embedded `public/netflow.ico` |
-| **Config** | JSON on disk via `os.UserConfigDir()` / `NetFlow/config.json` |
+| **Icon** | Embedded `public/netflow.ico`; `internal/icon` for TransparentIcon and SVG/PNG helpers |
+| **Config** | Optional; `internal/config` for path and Load/Save (reserved for future use) |
 
 All dependencies are vendored or fetched via `go mod`; no external services or APIs are called at runtime.
 
@@ -252,7 +253,7 @@ All dependencies are vendored or fetched via `go mod`; no external services or A
 
 | Platform | Version / notes |
 |----------|------------------|
-| **Windows** | Windows 10 or later; amd64. No admin rights required. |
+| **Windows** | Windows 10 or later; amd64. No admin rights required. Runs as GUI app (no console window). |
 | **macOS** | macOS 10.15 (Catalina) or later; Intel (amd64) or Apple Silicon (arm64). Menu bar only; no Dock icon. |
 | **Linux** | Ubuntu 20.04+, Debian 11+, Fedora 34+, or equivalent; amd64. Requires a desktop environment with system tray support. |
 
@@ -286,7 +287,8 @@ All dependencies are vendored or fetched via `go mod`; no external services or A
 |-------|-------------|
 | **Icon doesn’t appear** | Windows: Check notification area visibility. macOS: Check menu bar. Linux: Ensure tray (e.g. libappindicator) is available. |
 | **Speeds always 0 or --** | Confirm an active interface (Wi‑Fi or Ethernet). macOS: Grant network/firewall access if prompted. Restart NetFlow. |
-| **App won’t start** | Ensure Go 1.21+ when building from source. Check console/terminal for errors. Verify OS and architecture match the binary. |
+| **App won’t start** | Ensure Go 1.21+ when building from source. Verify OS and architecture match the binary. On Windows, use `-H windowsgui` to avoid console. |
+| **Windows: console window appears** | Rebuild with `-ldflags="-s -w -H windowsgui"` so the exe uses the GUI subsystem. |
 ---
 
 ## Contributing
