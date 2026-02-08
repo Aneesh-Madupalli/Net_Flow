@@ -21,5 +21,10 @@ else
     exit 1
 fi
 
+# Copy to release/ for README download links
+mkdir -p release
+cp -f netflow-macos-amd64 netflow-macos-arm64 release/ 2>/dev/null && chmod +x release/netflow-macos-*
+echo "Copied to release/ for README download links."
+
 echo "All macOS builds completed successfully!"
 

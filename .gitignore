@@ -1,10 +1,11 @@
-# Binaries
-*.exe
-*.exe~
+# Binaries (root only; release/ is committed for download links)
+/*.exe
+/*.exe~
+/netflow
+/netflow-*
 *.dll
 *.so
 *.dylib
-netflow-*
 
 # Test binary, built with `go test -c`
 *.test

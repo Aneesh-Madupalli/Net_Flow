@@ -11,6 +11,8 @@
 
 ## Table of Contents
 
+- [Download — ready-to-run binaries](#download--ready-to-run-binaries)
+- [Build release files (macOS & Linux)](#build-release-files-macos--linux)
 - [Quick start: clone, build & run](#quick-start-clone-build--run)
 - [Overview](#overview)
 - [Features](#features)
@@ -27,6 +29,88 @@
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
+
+---
+
+## Download — ready-to-run binaries
+
+Pre-built binaries: **click to download**, then run. (Links point to the `release/` folder in this repo. To refresh them: run `make release` on macOS/Linux, or run `build-windows.bat` and the other build scripts, then copy the built files into `release/` and commit.)
+
+| Platform | Download | How to run |
+|----------|----------|------------|
+| **Windows** | [⬇ netflow.exe](release/netflow.exe) | Double-click or run from Explorer. Icon in system tray (no console window). |
+| **macOS (Intel)** | [⬇ netflow-macos-amd64](release/netflow-macos-amd64) | In Terminal: `chmod +x netflow-macos-amd64` then `./netflow-macos-amd64`. Icon in menu bar. |
+| **macOS (Apple Silicon)** | [⬇ netflow-macos-arm64](release/netflow-macos-arm64) | In Terminal: `chmod +x netflow-macos-arm64` then `./netflow-macos-arm64`. Icon in menu bar. |
+| **Linux** | [⬇ netflow-linux-amd64](release/netflow-linux-amd64) | In terminal: `chmod +x netflow-linux-amd64` then `./netflow-linux-amd64`. Icon in system tray. |
+
+- **Windows:** No installer; run the `.exe`. Optional: add to Startup for run at logon.
+- **macOS / Linux:** Grant network access if prompted. Optional: add to Login Items (macOS) or session autostart (Linux).
+
+Hover over the tray/menu bar icon to see speeds; right-click → **Quit** to exit.
+
+---
+
+## Build release files (macOS & Linux)
+
+If you're on **macOS** or **Linux**, you can build the release binaries so the [Download](#download--ready-to-run-binaries) links work for everyone. Follow these steps.
+
+**Prerequisite:** [Go 1.21 or later](https://go.dev/doc/install) installed.
+
+### macOS (Intel + Apple Silicon)
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/yourusername/netflow.git
+cd netflow
+
+# 2. Download dependencies
+go mod download
+
+# 3. Make the build script executable and run it
+chmod +x build-macos.sh
+./build-macos.sh
+```
+
+This produces `netflow-macos-amd64` and `netflow-macos-arm64` in the project root and copies them into `release/`. To update the download links in the repo, commit the `release/` folder:
+
+```bash
+git add release/
+git commit -m "Update macOS release binaries"
+git push
+```
+
+### Linux (amd64)
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/yourusername/netflow.git
+cd netflow
+
+# 2. Download dependencies
+go mod download
+
+# 3. Make the build script executable and run it
+chmod +x build-linux.sh
+./build-linux.sh
+```
+
+This produces `netflow-linux-amd64` in the project root and copies it into `release/`. To update the download links, commit the `release/` folder:
+
+```bash
+git add release/
+git commit -m "Update Linux release binary"
+git push
+```
+
+### Build all platforms (macOS or Linux only)
+
+From macOS or Linux you can build **Windows, macOS, and Linux** binaries and put them in `release/`:
+
+```bash
+make release
+```
+
+Then commit `release/` so all [Download](#download--ready-to-run-binaries) links work.
 
 ---
 
@@ -116,35 +200,8 @@ NetFlow is a lightweight, cross-platform application that displays **real-time d
 
 ## Installation
 
-You can either **build from source** (see [Quick start](#quick-start-clone-build--run)) or use a pre-built binary below.
-
-### Windows
-
-1. Download `netflow-windows-amd64.exe` from [Releases](https://github.com/yourusername/netflow/releases), or [build it yourself](#quick-start-clone-build--run).
-2. Run the executable (no installer, no console window). The icon appears in the system tray (notification area).
-3. Optional: Add to startup (e.g. shell:startup or Task Scheduler) for launch at logon.
-
-### macOS
-
-1. Download `netflow-macos-arm64` (Apple Silicon) or `netflow-macos-amd64` (Intel) from [Releases](https://github.com/yourusername/netflow/releases), or [build from source](#quick-start-clone-build--run).
-2. In Terminal:
-   ```bash
-   chmod +x netflow-macos-arm64   # or netflow-macos-amd64
-   ./netflow-macos-arm64
-   ```
-3. The icon appears in the menu bar. Grant network access if prompted.
-4. Optional: Use a Launch Agent or add to Login Items for start at login.
-
-### Linux
-
-1. Download `netflow-linux-amd64` from [Releases](https://github.com/yourusername/netflow/releases), or [build from source](#quick-start-clone-build--run).
-2. Make it executable and run:
-   ```bash
-   chmod +x netflow-linux-amd64
-   ./netflow-linux-amd64
-   ```
-3. The icon appears in the system tray (ensure your desktop environment supports the tray).
-4. Optional: Add to autostart for your session.
+- **Use a pre-built binary:** See [Download — ready-to-run binaries](#download--ready-to-run-binaries) for Windows, macOS, and Linux. Download the file for your platform and run it.
+- **Build from source:** See [Quick start: clone, build & run](#quick-start-clone-build--run).
 
 ---
 
@@ -264,7 +321,7 @@ go build -ldflags="-s -w -H windowsgui" -o netflow.exe
 | Target | Description |
 |--------|-------------|
 | `make build` | Build for current OS/arch → `netflow` (or `netflow.exe`) |
-| `make build-windows` | Build Windows amd64 (GUI, no console) → `netflow-windows-amd64.exe` |
+| `make build-windows` | Build Windows amd64 (GUI, no console) → `netflow-windows-amd64.exe`; use build-windows.bat to get `release/netflow.exe` |
 | `make build-macos` | Build macOS amd64 + arm64 → `netflow-macos-amd64`, `netflow-macos-arm64` |
 | `make build-linux` | Build Linux amd64 → `netflow-linux-amd64` |
 | `make build-all` | Build for Windows, macOS, and Linux |
@@ -276,15 +333,20 @@ go build -ldflags="-s -w -H windowsgui" -o netflow.exe
 
 ### Scripts (no Make)
 
-- **Windows:** `build-windows.bat` → `netflow-windows-amd64.exe` (GUI subsystem; no console window when run)
+- **Windows:** `build-windows.bat` → builds and copies to `release/netflow.exe` (GUI subsystem; no console window when run)
 - **macOS:** `./build-macos.sh` → `netflow-macos-amd64`, `netflow-macos-arm64`
 - **Linux:** `./build-linux.sh` → `netflow-linux-amd64`
+
+### Building release binaries
+
+To build the files that the [Download](#download--ready-to-run-binaries) links point to, see **[Build release files (macOS & Linux)](#build-release-files-macos--linux)** for step-by-step instructions (clone → build script → commit `release/`).
 
 ### Cross-compile (manual)
 
 ```bash
 # Windows (GUI app: no console window)
 GOOS=windows GOARCH=amd64 go build -ldflags="-s -w -H windowsgui" -o netflow-windows-amd64.exe
+# For the README download link, copy to release/netflow.exe
 
 # macOS (Intel / Apple Silicon)
 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o netflow-macos-amd64
