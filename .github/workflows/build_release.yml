@@ -95,6 +95,9 @@ jobs:
       - name: Create / update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: build-latest
+          target_commitish: ${{ github.sha }}
+          name: NetFlow build (build branch)
           files: |
             dist/netflow.exe/netflow.exe
             dist/netflow_linux_amd64/netflow_linux_amd64
