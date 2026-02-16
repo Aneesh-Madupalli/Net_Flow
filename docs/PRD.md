@@ -253,7 +253,7 @@ UI layer only displays formatted output.
 
 ### 10.1 Build Targets
 
-* Windows: `netflow.exe` in `release/` (GUI subsystem, no console)
+* Windows: `netflow.exe` from GitHub Releases (GUI subsystem, no console)
 * macOS: `netflow-macos-amd64`, `netflow-macos-arm64`
 * Linux: `netflow-linux-amd64`
 
