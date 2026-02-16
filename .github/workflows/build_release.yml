@@ -15,25 +15,29 @@ jobs:
   # -----------------------------------
   build:
     name: Build binaries
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
         include:
-          - goos: windows
+          - os: windows-latest
+            goos: windows
             goarch: amd64
             output: netflow.exe
             ldflags: -s -w -H windowsgui
-          - goos: linux
+          - os: ubuntu-latest
+            goos: linux
             goarch: amd64
             output: netflow_linux_amd64
             ldflags: -s -w
-          - goos: darwin
+          - os: macos-latest
+            goos: darwin
             goarch: amd64
             output: netflow_macos_amd64
             ldflags: -s -w
-          - goos: darwin
+          - os: macos-latest
+            goos: darwin
             goarch: arm64
             output: netflow_macos_arm64
             ldflags: -s -w
@@ -46,6 +50,12 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.21.x"
+
+      - name: Install Linux tray dependencies
+        if: matrix.goos == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libayatana-appindicator3-dev
 
       - name: Download Go modules
         run: go mod download
