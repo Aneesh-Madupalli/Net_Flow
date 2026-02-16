@@ -1,8 +1,19 @@
-# -------------------------------------
-# 1. Workflow name and triggers
-# -------------------------------------
+# =============================================================================
+# NetFlow | CI/CD Build & Release Pipeline
+# =============================================================================
+# Cross-platform binary builds (Windows, Linux, macOS) with automated GitHub
+# Release publishing. Telegram notifications on pipeline success or failure.
+#
+# Required secrets (Settings → Secrets and variables → Actions):
+#   TG_BOT_TOKEN  — Telegram Bot API token (obtain via @BotFather)
+#   TG_CHAT_ID    — Target chat or channel ID for notifications
+# =============================================================================
+
 name: Build and release NetFlow binaries
 
+# -----------------------------------------------------------------------------
+# 1. TRIGGERS
+# -----------------------------------------------------------------------------
 on:
   push:
     branches:
@@ -10,9 +21,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  # -----------------------------------
-  # 2. Build job (CI artifacts)
-  # -----------------------------------
+  # ===========================================================================
+  # 2. BUILD JOB (Matrix: Windows, Linux, macOS)
+  # ===========================================================================
   build:
     name: Build binaries
     runs-on: ${{ matrix.os }}
@@ -75,9 +86,9 @@ jobs:
           name: ${{ matrix.output }}
           path: dist/${{ matrix.output }}
 
-  # -----------------------------------
-  # 3. Release job (GitHub Release assets)
-  # -----------------------------------
+  # ===========================================================================
+  # 3. RELEASE JOB (GitHub Release)
+  # ===========================================================================
   release:
     name: Create GitHub Release
     needs: build
@@ -106,3 +117,81 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # ===========================================================================
+  # 4. TELEGRAM NOTIFICATION (Success / Failure)
+  # ===========================================================================
+  notify:
+    name: Send Telegram notification
+    needs: [build, release]
+    runs-on: ubuntu-latest
+    if: always() && (needs.build.result == 'success' || needs.build.result == 'failure') && (needs.release.result == 'success' || needs.release.result == 'failure' || needs.release.result == 'skipped')
+    # Skip if secrets are not configured
+    continue-on-error: true
+
+    steps:
+      - name: Build success notification
+        if: needs.build.result == 'success' && needs.release.result == 'success'
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          [ -z "$TG_BOT_TOKEN" ] || [ -z "$TG_CHAT_ID" ] && { echo "TG_BOT_TOKEN or TG_CHAT_ID not set. Skipping."; exit 0; }
+          PAYLOAD=$(jq -n \
+            --arg chat "$TG_CHAT_ID" \
+            --arg text "✅ <b>NetFlow build succeeded</b>
+
+          <b>Repository:</b> ${{ github.repository }}
+          <b>Branch:</b> ${{ github.ref_name }}
+          <b>Commit:</b> <code>${{ github.sha }}</code>
+          <b>Triggered by:</b> ${{ github.actor }}
+          <b>Run:</b> <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>#${{ github.run_number }}</a>
+
+          <b>Artifacts:</b>
+          • netflow.exe (Windows amd64)
+          • netflow_linux_amd64 (Linux amd64)
+          • netflow_macos_amd64 (macOS Intel)
+          • netflow_macos_arm64 (macOS Apple Silicon)
+
+          Published to GitHub Releases." \
+            '{chat_id: $chat, text: $text, parse_mode: "HTML", disable_web_page_preview: true}')
+          curl -s -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" -H "Content-Type: application/json" -d "$PAYLOAD"
+
+      - name: Build failure notification
+        if: needs.build.result == 'failure'
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          [ -z "$TG_BOT_TOKEN" ] || [ -z "$TG_CHAT_ID" ] && { echo "TG_BOT_TOKEN or TG_CHAT_ID not set. Skipping."; exit 0; }
+          PAYLOAD=$(jq -n \
+            --arg chat "$TG_CHAT_ID" \
+            --arg text "❌ <b>NetFlow build failed</b>
+
+          <b>Repository:</b> ${{ github.repository }}
+          <b>Branch:</b> ${{ github.ref_name }}
+          <b>Commit:</b> <code>${{ github.sha }}</code>
+          <b>Triggered by:</b> ${{ github.actor }}
+          <b>Failed at:</b> Build job
+          <b>Run:</b> <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>#${{ github.run_number }}</a>" \
+            '{chat_id: $chat, text: $text, parse_mode: "HTML", disable_web_page_preview: true}')
+          curl -s -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" -H "Content-Type: application/json" -d "$PAYLOAD"
+
+      - name: Release failure notification
+        if: needs.build.result == 'success' && needs.release.result == 'failure'
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          [ -z "$TG_BOT_TOKEN" ] || [ -z "$TG_CHAT_ID" ] && { echo "TG_BOT_TOKEN or TG_CHAT_ID not set. Skipping."; exit 0; }
+          PAYLOAD=$(jq -n \
+            --arg chat "$TG_CHAT_ID" \
+            --arg text "❌ <b>NetFlow release failed</b>
+
+          <b>Repository:</b> ${{ github.repository }}
+          <b>Branch:</b> ${{ github.ref_name }}
+          <b>Commit:</b> <code>${{ github.sha }}</code>
+          <b>Triggered by:</b> ${{ github.actor }}
+          <b>Failed at:</b> Release job (builds succeeded, GitHub Release creation failed)
+          <b>Run:</b> <a href='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'>#${{ github.run_number }}</a>" \
+            '{chat_id: $chat, text: $text, parse_mode: "HTML", disable_web_page_preview: true}')
+          curl -s -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" -H "Content-Type: application/json" -d "$PAYLOAD"
