@@ -11,72 +11,72 @@ import (
 
 	"netflow/network"
 	"netflow/tray"
-// )
+)
 
-// //go:embed public/netflow.ico
-// var iconICO []byte
+//go:embed public/netflow.ico
+var iconICO []byte
 
-// const (
-// 	updateIntervalSeconds = 1
-// )
+const (
+	updateIntervalSeconds = 1
+)
 
-// func main() {
-// 	// Create context for graceful shutdown
-// 	ctx, cancel := context.WithCancel(context.Background())
-// 	defer cancel()
+func main() {
+	// Create context for graceful shutdown
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-// 	// Handle OS signals for graceful shutdown
-// 	sigChan := make(chan os.Signal, 1)
-// 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	// Handle OS signals for graceful shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 
-// 	// Initialize network monitor
-// 	monitor, err := network.NewMonitor()
-// 	if err != nil {
-// 		log.Fatalf("Failed to initialize network monitor: %v", err)
-// 	}
+	// Initialize network monitor
+	monitor, err := network.NewMonitor()
+	if err != nil {
+		log.Fatalf("Failed to initialize network monitor: %v", err)
+	}
 
-// 	// Create tray instance with embedded icon
-// 	trayInstance := tray.NewTray(iconICO)
+	// Create tray instance with embedded icon
+	trayInstance := tray.NewTray(iconICO)
 
-// 	// Set up tray callbacks
-// 	trayInstance.SetOnReady(func() {
-// 		log.Println("NetFlow started successfully")
+	// Set up tray callbacks
+	trayInstance.SetOnReady(func() {
+		log.Println("NetFlow started successfully")
 		
-// 		// Initial update
-// 		downloadBps, uploadBps, err := monitor.GetSpeeds()
-// 		if err != nil {
-// 			log.Printf("Warning: Error getting initial speeds: %v", err)
-// 			trayInstance.UpdateTooltip(0, 0, err)
-// 		} else {
-// 			trayInstance.UpdateTooltip(downloadBps, uploadBps, nil)
-// 		}
+		// Initial update
+		downloadBps, uploadBps, err := monitor.GetSpeeds()
+		if err != nil {
+			log.Printf("Warning: Error getting initial speeds: %v", err)
+			trayInstance.UpdateTooltip(0, 0, err)
+		} else {
+			trayInstance.UpdateTooltip(downloadBps, uploadBps, nil)
+		}
 		
-// 		// Start monitoring in background
-// 		go func() {
-// 			ticker := time.NewTicker(time.Duration(updateIntervalSeconds) * time.Second)
-// 			defer ticker.Stop()
+		// Start monitoring in background
+		go func() {
+			ticker := time.NewTicker(time.Duration(updateIntervalSeconds) * time.Second)
+			defer ticker.Stop()
 
-// 			// Wait a bit before first real update to get accurate delta
-// 			time.Sleep(time.Duration(updateIntervalSeconds) * time.Second)
+			// Wait a bit before first real update to get accurate delta
+			time.Sleep(time.Duration(updateIntervalSeconds) * time.Second)
 
-// 			for {
-// 				select {
-// 				case <-ctx.Done():
-// 					return
-// 				case <-ticker.C:
-// 					downloadBps, uploadBps, err := monitor.GetSpeeds()
-// 					if err != nil {
-// 						// Log error but don't spam
-// 						select {
-// 						case <-time.After(5 * time.Second):
-// 							log.Printf("Error getting speeds: %v", err)
-// 						default:
-// 						}
-// 						trayInstance.UpdateTooltip(0, 0, err)
-// 					} else {
-// 						trayInstance.UpdateTooltip(downloadBps, uploadBps, nil)
-// 					}
-// 				}
+			for {
+				select {
+				case <-ctx.Done():
+					return
+				case <-ticker.C:
+					downloadBps, uploadBps, err := monitor.GetSpeeds()
+					if err != nil {
+						// Log error but don't spam
+						select {
+						case <-time.After(5 * time.Second):
+							log.Printf("Error getting speeds: %v", err)
+						default:
+						}
+						trayInstance.UpdateTooltip(0, 0, err)
+					} else {
+						trayInstance.UpdateTooltip(downloadBps, uploadBps, nil)
+					}
+				}
 			}
 		}()
 	})
