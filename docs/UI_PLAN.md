@@ -330,10 +330,10 @@ As implemented: first item is "NetFlow" (disabled), then separator, then "Quit".
 
 ### Critical Failures
 
-❌ **Numbers jump visually** — Formatting inconsistency
-❌ **Tooltip flickers** — Update timing issues
-❌ **Icon draws attention** — Animation or color changes
-❌ **User notices CPU usage** — Performance issues
+❌ **Numbers jump visually** — Formatting inconsistency  
+❌ **Tooltip flickers** — Update timing issues  
+❌ **Icon draws attention** — Animation or color changes  
+❌ **User notices CPU usage** — Performance issues  
 ❌ **User wants to "configure"** — Missing essential defaults
 
 ### Quality Gates
@@ -437,13 +437,13 @@ If users request more features, extend without breaking v1:
 
 ### What We're NOT Adding (v1)
 
-❌ Icon animations
-❌ Color changes
-❌ Sound effects
-❌ Notifications
-❌ Settings window
-❌ Statistics dashboard
-❌ History graphs
+❌ Icon animations  
+❌ Color changes  
+❌ Sound effects  
+❌ Notifications  
+❌ Settings window  
+❌ Statistics dashboard  
+❌ History graphs  
 ❌ Multiple interfaces display
 
 **Rationale**: Each addition breaks the "invisible excellence" principle.
@@ -487,6 +487,7 @@ If users request more features, extend without breaking v1:
 ### Icon Design (Detailed)
 
 **SVG Code Structure**:
+
 ```svg
 <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 2 L8 6 M8 10 L8 14 M4 8 L12 8" 
@@ -504,14 +505,10 @@ If users request more features, extend without breaking v1:
 - Center point: (8, 8)
 - Total icon: 16x16px
 
-**Platform Rendering**:
-- macOS: Template image (auto light/dark)
-- Windows: Monochrome (system theme)
-- Linux: Desktop environment handles
-
 ### Tooltip Design
 
 **Layout**:
+
 ```
 ↓ 12.4 MB/s    ↑ 1.8 MB/s
 ```
@@ -564,10 +561,10 @@ If users request more features, extend without breaking v1:
 
 ### Design Principles Achieved
 
-✅ **Minimal** — Only essential UI surfaces
-✅ **Professional** — Feels like system utility
-✅ **OS-Native** — Respects platform conventions
-✅ **Timeless** — Won't feel dated in 5 years
+✅ **Minimal** — Only essential UI surfaces  
+✅ **Professional** — Feels like system utility  
+✅ **OS-Native** — Respects platform conventions  
+✅ **Timeless** — Won't feel dated in 5 years  
 ✅ **Maintenance-Free** — No UI debt for future
 
 ### Success Criteria
@@ -576,10 +573,10 @@ If users request more features, extend without breaking v1:
 
 ### Next Steps
 
-1. ✅ **UI Plan Complete** — This document
-2. ⏭️ **Icon Design** — Create SVG icon files
-3. ⏭️ **Formatter Implementation** — Code the formatting logic
-4. ⏭️ **Tray Integration** — Implement system tray UI
+1. ✅ **UI Plan Complete** — This document  
+2. ⏭️ **Icon Design** — Create SVG icon files  
+3. ⏭️ **Formatter Implementation** — Code the formatting logic  
+4. ⏭️ **Tray Integration** — Implement system tray UI  
 5. ⏭️ **QA Testing** — Visual and functional testing
 
 ---

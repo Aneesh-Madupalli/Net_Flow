@@ -266,6 +266,11 @@ NetFlow may store an optional config file under the platform config directory fo
 netflow/
 ├── main.go                 # Entry point, ticker, shutdown, embed of icon
 ├── go.mod / go.sum         # Module and dependencies
+├── docs/                   # Project documentation and AI context
+│   ├── README.md           # Documentation index
+│   ├── PRD.md              # Product requirements
+│   ├── UI_PLAN.md          # UI/UX specification
+│   └── context/            # AI-focused context and guidelines
 ├── formatter/
 │   └── formatter.go        # Speed formatting, tooltip
 ├── network/
@@ -283,8 +288,6 @@ netflow/
 ├── build-macos.sh          # macOS amd64 + arm64
 ├── build-linux.sh          # Linux amd64
 ├── Makefile                # build, build-windows, build-macos, build-linux, deps, clean, test, fmt, lint
-├── PRD.md                  # Product requirements
-├── UI_PLAN.md              # UI/UX specification
 ├── LICENSE
 └── README.md               # This file
 ```
