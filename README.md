@@ -34,14 +34,14 @@
 
 ## Download — ready-to-run binaries
 
-Pre-built binaries: **click to download** from the [main repo](https://github.com/Aneesh-Madupalli/Net_Flow).
+Pre-built binaries: **click to download** from the latest [GitHub Release](https://github.com/Aneesh-Madupalli/Net_Flow/releases/latest).
 
 | Platform | Download | How to run |
 |----------|----------|------------|
-| **Windows** | [⬇ netflow.exe](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow.exe) | Double-click or run from Explorer. Icon in system tray (no console window). |
-| **macOS (Intel)** | [⬇ netflow-macos-amd64](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow-macos-amd64) | In Terminal: `chmod +x netflow-macos-amd64` then `./netflow-macos-amd64`. Icon in menu bar. |
-| **macOS (Apple Silicon)** | [⬇ netflow-macos-arm64](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow-macos-arm64) | In Terminal: `chmod +x netflow-macos-arm64` then `./netflow-macos-arm64`. Icon in menu bar. |
-| **Linux** | [⬇ netflow-linux-amd64](https://github.com/Aneesh-Madupalli/Net_Flow/raw/main/release/netflow-linux-amd64) | In terminal: `chmod +x netflow-linux-amd64` then `./netflow-linux-amd64`. Icon in system tray. |
+| **Windows** | [⬇ netflow.exe](https://github.com/Aneesh-Madupalli/Net_Flow/releases/latest/download/netflow.exe) | Double-click or run from Explorer. Icon in system tray (no console window). |
+| **macOS (Intel)** | [⬇ netflow_macos_amd64](https://github.com/Aneesh-Madupalli/Net_Flow/releases/latest/download/netflow_macos_amd64) | In Terminal: `chmod +x netflow_macos_amd64` then `./netflow_macos_amd64`. Icon in menu bar. |
+| **macOS (Apple Silicon)** | [⬇ netflow_macos_arm64](https://github.com/Aneesh-Madupalli/Net_Flow/releases/latest/download/netflow_macos_arm64) | In Terminal: `chmod +x netflow_macos_arm64` then `./netflow_macos_arm64`. Icon in menu bar. |
+| **Linux** | [⬇ netflow_linux_amd64](https://github.com/Aneesh-Madupalli/Net_Flow/releases/latest/download/netflow_linux_amd64) | In terminal: `chmod +x netflow_linux_amd64` then `./netflow_linux_amd64`. Icon in system tray. |
 
 - **Windows:** No installer; run the `.exe`. Optional: add to Startup for run at logon.
 - **macOS / Linux:** Grant network access if prompted. Optional: add to Login Items (macOS) or session autostart (Linux).

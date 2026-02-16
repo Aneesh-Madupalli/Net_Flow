@@ -1,0 +1,94 @@
+# -------------------------------------
+# 1. Workflow name and triggers
+# -------------------------------------
+name: Build and release NetFlow binaries
+
+on:
+  push:
+    branches:
+      - build
+  workflow_dispatch:
+
+jobs:
+  # -----------------------------------
+  # 2. Build job (CI artifacts)
+  # -----------------------------------
+  build:
+    name: Build binaries
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - goos: windows
+            goarch: amd64
+            output: netflow.exe
+            ldflags: -s -w -H windowsgui
+          - goos: linux
+            goarch: amd64
+            output: netflow_linux_amd64
+            ldflags: -s -w
+          - goos: darwin
+            goarch: amd64
+            output: netflow_macos_amd64
+            ldflags: -s -w
+          - goos: darwin
+            goarch: arm64
+            output: netflow_macos_arm64
+            ldflags: -s -w
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.21.x"
+
+      - name: Download Go modules
+        run: go mod download
+
+      - name: Build ${{ matrix.output }}
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          mkdir -p dist
+          go build -ldflags="${{ matrix.ldflags }}" -o dist/${{ matrix.output }} .
+
+      - name: Upload CI artifact ${{ matrix.output }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.output }}
+          path: dist/${{ matrix.output }}
+
+  # -----------------------------------
+  # 3. Release job (GitHub Release assets)
+  # -----------------------------------
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Create / update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/netflow.exe/netflow.exe
+            dist/netflow_linux_amd64/netflow_linux_amd64
+            dist/netflow_macos_amd64/netflow_macos_amd64
+            dist/netflow_macos_arm64/netflow_macos_arm64
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
